@@ -55,7 +55,7 @@ const translator = {
 
 // ❓ Write a function logLanguageInfo(getter) that logs the language info correctly even if getLanguage is passed as an argument.
 function logLanguageInfo(getter) {
-  console.log(getter());
+  console.log(getter.call(translator)); // solve a loose inside function 
 }
 
-logLanguageInfo(translator.getLanguage.bind(translator)); //// Current language: Arabic
+logLanguageInfo(translator.getLanguage); //// Current language: Arabic
