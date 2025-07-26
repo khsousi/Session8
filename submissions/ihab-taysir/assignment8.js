@@ -20,23 +20,12 @@ console.log(getTitle()); // Expected output: "MY FIRST BLOG"
 // Task 2: Arrow or Regular?
 // ====================
 
-/*
-This task demonstrates how 'this' behaves differently
-between regular functions and arrow functions.
-*/
-
 const formHandler = {
   value: "initial",
 
-  // ✅ Regular function: allows dynamic 'this'
+  // Regular method using dynamic 'this'
   onChange(newValue) {
     this.value = newValue;
-  },
-
-  // ✅ Arrow function version (uses lexical 'this')
-  onChangeArrow: (newValue) => {
-    // ⚠️ This will NOT work as expected when used like a method
-    formHandler.value = newValue; // Access via object name instead
   },
 };
 
@@ -44,21 +33,31 @@ function simulateInputChange(callback) {
   callback("updated");
 }
 
-// ---------- Method 1: Using .bind() ----------
+// ✅ Method 1: Using .bind() to preserve 'this' context
 simulateInputChange(formHandler.onChange.bind(formHandler));
-console.log("After bind():", formHandler.value); // ✅ Expected: "updated"
+console.log("After bind():", formHandler.value); // Expected: "updated"
 
-// ---------- Method 2: Using Arrow Function ----------
-simulateInputChange(formHandler.onChangeArrow);
-console.log("After arrow:", formHandler.value); // ✅ Expected: "updated"
+// ✅ Method 2: Using arrow function externally (not inside the object)
+// This does not modify the original object structure
+simulateInputChange((newValue) => {
+  formHandler.value = newValue;
+});
+console.log("After arrow callback:", formHandler.value); // Expected: "updated"
 
 /*
 🧠 Explanation:
 
-- The regular function needs .bind(formHandler) to keep 'this' pointing to formHandler.
-- The arrow function doesn't have its own 'this', so we manually access formHandler.value directly.
-- Arrow functions are useful when you want to inherit 'this' from the outer scope (lexical scoping),
-  but they are not ideal for methods inside objects that rely on dynamic 'this'.
+- In Method 1, we use .bind() to ensure the 'this' inside formHandler.onChange
+  refers correctly to the formHandler object.
+
+- In Method 2, instead of modifying the object to use an arrow function,
+  we pass an arrow function directly as the callback.
+  This avoids any changes to the original object structure.
+
+❌ We should NOT define an arrow method like:
+   onChangeArrow: (newValue) => { this.value = newValue }
+   because arrow functions don't bind their own 'this', and using 'this' inside them
+   when defined in an object leads to incorrect behavior.
 */
 
 /* -------------------------------------------------- */
