@@ -7,10 +7,10 @@ const editor = {
   }
 };
 
-const getTitle = ()=>editor.getUpperTitle();
+const getTitle = editor.getUpperTitle;
 
 // Write code that ensures getTitle() works as expected and logs "MY FIRST BLOG"
-console.log(getTitle())
+console.log(getTitle.bind(editor)())
 
 
 //Task 2
@@ -33,12 +33,10 @@ simulateInputChange(formHandler.onChange);
 //when we pass onChange as callback it will try to set the value in the wrong object so it doesnt change the formHandler.value  
 console.log(formHandler.value)
 
-simulateInputChange(formHandler.onChange.bind(formHandler));
+simulateInputChange((val) => formHandler.onChange(val));
 console.log(formHandler.value)
 
-//i used bind(formHandler) ,when we pass the callback we are disconnecting the function from the object
-//when we use bind it creates a new function where 'this' is connected to the object (formHandler)
-
+//because arrow functions dont have their own 'this' it uses the 'this' from the outer scope which in this case is the 'this' inside onChange which refer to formHandler
 
 //Task 3
 
@@ -51,6 +49,6 @@ const translator = {
 
 // ❓ Write a function logLanguageInfo(getter) that logs the language info correctly even if getLanguage is passed as an argument.
 function logLanguageInfo(getter){
-    console.log(getter.bind(translator)())
+    console.log(getter.call(translator))
 }
 logLanguageInfo(translator.getLanguage);
