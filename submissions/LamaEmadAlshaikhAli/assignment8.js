@@ -53,7 +53,7 @@ function simulateInputChange(callback) {
 // using bind ();
 simulateInputChange(formHandler.onChange.bind(formHandler));
 //using arrow function
-// simulateInputChange((val) => formHandler.onChange(val));
+simulateInputChange((val) => formHandler.onChange(val));
 console.log(formHandler.value); 
 // Explanation:
 //- I used bind() so the method keeps using `formHandler` as `this`, and updates the value correctly.
