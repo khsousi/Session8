@@ -20,7 +20,7 @@ function simulateInputChange(callback) {
   callback("updated");
 }
 
-simulateInputChange(formHandler.onChange.bind(formHandler));
+simulateInputChange((newVal) => formHandler.onChange(newVal));
 
 // 1
 // formHandler.value will be "initial" , because no object call "onChange" ,so 'this' has no reference ,
@@ -30,10 +30,8 @@ simulateInputChange(formHandler.onChange.bind(formHandler));
 console.log(formHandler.value);
 
 // 3
-// i use .bind(formHandler) when i call 'simulateInputChange' this will make the "this" inside onChange
-// reference to the formHandler object , as a result of this fix , the onChange function will git the new value
-// "updated" and replace it with old value of 'value' = "initial"
-
+// when i use arrow function i will manually call formHandler.onChange() when callback is called ,
+// so "this" will be refrence to the formHandler object and update the value of 'value'
 // Task 3
 const translator = {
   language: "Arabic",
