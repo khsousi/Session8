@@ -20,28 +20,45 @@ console.log(getTitle()); // Expected output: "MY FIRST BLOG"
 // Task 2: Arrow or Regular?
 // ====================
 
+/*
+This task demonstrates how 'this' behaves differently
+between regular functions and arrow functions.
+*/
+
 const formHandler = {
   value: "initial",
+
+  // ✅ Regular function: allows dynamic 'this'
   onChange(newValue) {
     this.value = newValue;
   },
+
+  // ✅ Arrow function version (uses lexical 'this')
+  onChangeArrow: (newValue) => {
+    // ⚠️ This will NOT work as expected when used like a method
+    formHandler.value = newValue; // Access via object name instead
+  },
 };
 
-// Simulates passing a callback (e.g., from an input element)
 function simulateInputChange(callback) {
   callback("updated");
 }
 
-// Fix: Bind 'this' to formHandler
+// ---------- Method 1: Using .bind() ----------
 simulateInputChange(formHandler.onChange.bind(formHandler));
+console.log("After bind():", formHandler.value); // ✅ Expected: "updated"
 
-console.log(formHandler.value); // Expected output: "updated"
+// ---------- Method 2: Using Arrow Function ----------
+simulateInputChange(formHandler.onChangeArrow);
+console.log("After arrow:", formHandler.value); // ✅ Expected: "updated"
 
 /*
-Explanation:
-- Without .bind(), 'this' inside onChange refers to the global object (or undefined in strict mode),
-  so formHandler.value is not updated.
-- Using .bind(formHandler) ensures 'this' refers to the correct object.
+🧠 Explanation:
+
+- The regular function needs .bind(formHandler) to keep 'this' pointing to formHandler.
+- The arrow function doesn't have its own 'this', so we manually access formHandler.value directly.
+- Arrow functions are useful when you want to inherit 'this' from the outer scope (lexical scoping),
+  but they are not ideal for methods inside objects that rely on dynamic 'this'.
 */
 
 /* -------------------------------------------------- */
