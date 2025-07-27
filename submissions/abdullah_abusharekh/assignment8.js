@@ -8,7 +8,7 @@ const editor = {
   },
 };
 
-const getTitle = console.log(editor.getUpperTitle.bind(editor));
+const getTitle = editor.getUpperTitle.bind(editor);
 getTitle();
 
 //Task 2
