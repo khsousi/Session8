@@ -43,7 +43,7 @@ I used an arrow function to call formHandler.onChange explicitly with the correc
 
 //**************************************************************************************************************
 
-// task 3 :
+// task 3 :ّ
 
 const translator = {
   language: 'Arabic',
@@ -53,7 +53,7 @@ const translator = {
 };
 
 function logLanguageInfo(getter) {
-  console.log(getter.bind(translator)());
+  console.log(getter.call(translator)());
 }
 
 logLanguageInfo(translator.getLanguage);
