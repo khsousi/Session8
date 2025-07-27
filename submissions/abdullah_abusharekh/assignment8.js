@@ -25,9 +25,15 @@ function simulateInputChange(callback) {
 simulateInputChange(formHandler.onChange);
 console.log(formHandler.value); //initial
 
+//1. bind()
 simulateInputChange(formHandler.onChange.bind(formHandler));
 console.log(formHandler.value); //updated
-//I used bind() to explicitly bind the this context to formHandler.
+// I used bind() to explicitly bind the 'this' context to formHandler.
+
+// 2. Arrow function
+simulateInputChange((val) => formHandler.onChange(val));
+console.log(formHandler.value); //updated
+// I used the arrow function to call the method directly,So 'this' inside onChange refers to formHandler.
 
 //Task 3
 const translator = {
