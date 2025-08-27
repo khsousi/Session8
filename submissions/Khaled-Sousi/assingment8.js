@@ -40,6 +40,10 @@ console.log(formHandler.value)
 //  Arrow functions use "this" from outer scope because it dosent have its own "this"
 
 
+simulateInputChange(formHandler.onChange.bind(formHandler));
+
+// Bind use this directly on formHandler 
+
 // ------------------------------------------------
 
 
@@ -56,6 +60,5 @@ const translator = {
 // ❓ Write a function logLanguageInfo(getter) that logs the language info correctly even if getLanguage is passed as an argument.
 
 function logLanguageInfo(getter) {
-  console.log(getter.bind(translator)())
+  console.log(getter.call(translator))
 }
-logLanguageInfo(translator.getLanguage);
